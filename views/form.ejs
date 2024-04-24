@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-4">Person Form</h2>
+        <% if (message) { %>
+        <p class="text-red-500 text-sm mb-4"><%= message %></p>
+        <% } %>
+        <form action="/person/add" method="POST" class="space-y-4">
+            <div>
+                <label for="name" class="block font-medium mb-1">Name:</label>
+                <input type="text" id="name" name="name" required class="form-input mt-1 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-4 py-2">
+            </div>
+            <div>
+                <label for="nationalityId" class="block font-medium mb-1">Nationality ID:</label>
+                <input type="text" id="nationalityId" name="nationalityId" required class="form-input mt-1 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-4 py-2">
+                <div id="nationalityIdError" class="text-red-500 hidden">Nationality ID must contain 14 numbers and be unique.</div>
+            </div>
+            <div>
+                <label for="birthDate" class="block font-medium mb-1">Birthdate:</label>
+                <input type="date" id="birthDate" name="birthDate" required class="form-input mt-1 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-4 py-2">
+                <div id="birthDateError" class="text-red-500 hidden">Invalid birth date.</div>
+            </div>
+            <div>
+                <label for="age" class="block font-medium mb-1">Age:</label>
+                <input type="number" id="age" name="age" readonly class="form-input mt-1 block w-full border border-gray-300 rounded-md px-4 py-2">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Save</button>
+            </div>
+        </form>
+    </div>
+    <script>
+         const birthDateInput = document.getElementById('birthDate');
+        const ageInput = document.getElementById('age');
+        const birthDateError = document.getElementById('birthDateError');
+
+        birthDateInput.addEventListener('change', () => {
+            const birthDate = new Date(birthDateInput.value);
+            const currentDate = new Date();
+
+            if (birthDate > currentDate) {
+                birthDateInput.classList.add('error');
+                birthDateError.classList.remove('hidden');
+                ageInput.value = '';
+            } else {
+                birthDateInput.classList.remove('error');
+                birthDateError.classList.add('hidden');
+                const age = calculateAge(birthDate, currentDate);
+                ageInput.value = age;
+            }
+        });
+
+        // Helper function to calculate age
+        function calculateAge(birthDate, currentDate) {
+            let age = currentDate.getFullYear() - birthDate.getFullYear();
+            const m = currentDate.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && currentDate.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+    </script>
+</body>
+</html>

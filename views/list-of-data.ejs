@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persons Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            margin: 50px auto;
+            max-width: 800px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+            color: #4a5568;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #1a202c;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .no-data h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        /* Add space in "Person's Name" */
+        th:first-child {
+            white-space: nowrap; /* Prevent line breaks */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-3xl font-bold mb-4">Person Data</h2>
+        <% if (persons.length > 0) { %>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PERSON'S NAME</th>
+                        <th>Age</th>
+                        <th>Nationality ID</th>
+                        <th class="whitespace-nowrap">Birth Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let person of persons) { %>
+                    <tr>
+                        <td><%= person.name %></td>
+                        <td><%= person.age %></td>
+                        <td><%= person.nationalityId %></td>
+                        <td><%= new Date(person.birthDate).toLocaleString('en-US', { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' }) %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <% } else { %>
+        <div class="no-data">
+            <h1>No Persons Found!</h1>
+        </div>
+        <% } %>
+    </div>
+</body>
+
+</html>

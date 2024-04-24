@@ -1,0 +1,3 @@
+Open Folder Direction at Command Line and write this command: `npm install` ( and press enter) 
+And then run the app with command `npm start` 
+but first you should install postgerSQL and nodejs on your device.
